@@ -5,10 +5,10 @@ library(rMVP)
 
 getwd()
 
-setwd("F://Data/GAPIT/MVP/")
+setwd("/Users/rashasalih/Library/Mobile Documents/com~apple~CloudDocs/MSc /Coursework/Fall 2022/BVG 7003- Genome to Phenome/Week 11/GWAS/")
 
-#dir.create("2022")
-#setwd("F://Data/GAPIT/2022/")
+dir.create("MVP")
+setwd("/Users/rashasalih/Library/Mobile Documents/com~apple~CloudDocs/MSc /Coursework/Fall 2022/BVG 7003- Genome to Phenome/Week 11/GWAS/MVP/")
 
 
 ### Import genotypic and phenotypic data
