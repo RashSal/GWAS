@@ -119,14 +119,14 @@ analysis3<-GAPIT(
   Major.allele.zero=T,
   Model.selection=T)
 
-#this analysis used different kinship clustering methods to group individuals based on their kinship.
-#For kinship.group in used three different methods to derive kinship among the groups. The final line
+this analysis used different kinship clustering methods to group individuals based on their kinship.
+For kinship.group in used three different methods to derive kinship among the groups. The final line
 of code implements the model selection feature of GAPIT. This feature uses the Bayesian information criteria (BIC) to select the optimal number of principal components to use in the model. This is done because the degree of population structure can vary form trait to trait, therefore you don't always need to use the same number of principal components for each trait. 
 
-#Below is the output from this analysis, note the difference in FDR p-values. The optimal model did not use any PCs, the best method for deriving kinship between groups was "Max", and the  kinship clustering method that was used was "Complete". The number of groups did not change, neither did the estimate of heritability.
+Below is the output from this analysis, note the difference in FDR p-values. The optimal model did not use any PCs, the best method for deriving kinship between groups was "Max", and the  kinship clustering method that was used was "Complete". The number of groups did not change, neither did the estimate of heritability.
 
-#GWAS output
-#SNP  	FDR_Adjusted_P-values
+GWAS output
+SNP  	FDR_Adjusted_P-values
 12_10811	7.67E-07
 12_10199	7.67E-07
 12_10575	7.67E-07
@@ -134,9 +134,9 @@ of code implements the model selection feature of GAPIT. This feature uses the B
 12_11437	9.17E-06
 12_30301	0.000428139
 
-#the FDR p-values that we got were a bit smaller than our analysis using compression with the default settings. This example illustrates the value of trying a few analyses.
+the FDR p-values that we got were a bit smaller than our analysis using compression with the default settings. This example illustrates the value of trying a few analyses.
 
-###Multi-locus analysis
+Multi-locus analysis
 change to a location that works for you
 
 setwd("/Users/rashasalih/Library/Mobile Documents/com~apple~CloudDocs/MSc /Coursework/Fall 2022/BVG 7003- Genome to Phenome/Week 11/GWAS/GAPIT")
@@ -152,7 +152,7 @@ analysis4 <- GAPIT(
 
 
 
-#change to a location that works for you
+change to a location that works for you
 setwd("/Users/rashasalih/Library/Mobile Documents/com~apple~CloudDocs/MSc /Coursework/Fall 2022/BVG 7003- Genome to Phenome/Week 11/GWAS/GAPIT/")
 dir.create("FarmCPU")
 setwd("/Users/rashasalih/Library/Mobile Documents/com~apple~CloudDocs/MSc /Coursework/Fall 2022/BVG 7003- Genome to Phenome/Week 11/GWAS/GAPIT/FarmCPU/")
@@ -168,7 +168,7 @@ analysis5 <- GAPIT(
 install.packages("rMVP")
 library(rMVP)
 
-###Change working directory
+Change working directory
 
 getwd()
 
@@ -178,7 +178,7 @@ dir.create("MVP")
 setwd("/Users/rashasalih/Library/Mobile Documents/com~apple~CloudDocs/MSc /Coursework/Fall 2022/BVG 7003- Genome to Phenome/Week 11/GWAS/MVP/")
 
 
-##Import genotypic and phenotypic data
+Import genotypic and phenotypic data
 MVP.Data(fileHMP="geno.hmp.txt",
          filePhe="pheno.txt",
          sep.hmp="\t",
@@ -192,40 +192,40 @@ MVP.Data(fileHMP="geno.hmp.txt",
 )
 
 
-###Kinship
-#MVP.Data.Kin(TRUE, mvp_prefix='mvp', out='mvp')
-#Kinship <- attach.big.matrix("mvp.kin.desc")
+Kinship
+MVP.Data.Kin(TRUE, mvp_prefix='mvp', out='mvp')
+Kinship <- attach.big.matrix("mvp.kin.desc")
 
-###PCA
-#MVP.Data.PC(TRUE, out='mvp', pcs.keep=5)
+PCA
+MVP.Data.PC(TRUE, out='mvp', pcs.keep=5)
 
 
-###Data input
+Data input
 genotype <- attach.big.matrix("mvp.hmp.geno.desc")
 phenotype <- read.table("mvp.hmp.phe",head=TRUE)
 map <- read.table("mvp.hmp.geno.map" , head = TRUE)
 
 
-####Run GWAS
+Run GWAS
 for(i in 2:ncol(phenotype)){
 imMVP <- MVP(
   phe=phenotype[, c(1, i)],
   geno=genotype,
   map=map,
-  #K=Kinship,
-  #CV.GLM=Covariates,  ##if you have additional covariates, please keep there open.
-  #CV.MLM=Covariates,
-  #CV.FarmCPU=Covariates,
-  #nPC.GLM=5,   ##if you have added PCs into covariates, please keep there closed.
-  #nPC.MLM=3,  ##if you don't want to add PCs as covariates, please comment out the parameters instead of setting the nPC to 0.
+  K=Kinship,
+  CV.GLM=Covariates,  ##if you have additional covariates, please keep there open.
+  CV.MLM=Covariates,
+  CV.FarmCPU=Covariates,
+  nPC.GLM=5,   ##if you have added PCs into covariates, please keep there closed.
+  nPC.MLM=3,  ##if you don't want to add PCs as covariates, please comment out the parameters instead of setting the nPC to 0.
   nPC.FarmCPU=3,
   priority="speed",   ##for Kinship construction
   ncpus=5,
   vc.method="BRENT",  ##only works for MLM
   maxLoop=10,
   method.bin="FaST-LMM", #"static" (#only works for FarmCPU)
-  #permutation.threshold=TRUE,
-  #permutation.rep=100,
+  permutation.threshold=TRUE,
+  permutation.rep=100,
   threshold=10,
   method=c("FarmCPU")
   )
